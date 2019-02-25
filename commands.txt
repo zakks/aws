@@ -1,0 +1,11 @@
+Check if instance is running.
+aws ec2 describe-instances --query 'Reservations[*].Instances[*].[Placement.AvailabilityZone, State.Name, InstanceId]' --output text
+ 
+Stop the instance
+aws ec2 stop-instances --instance-ids i-0353879c3d0ebacfc
+ 
+Start the instance
+aws ec2 start-instances --instance-ids i-0353879c3d0ebacfc
+ 
+Identify its public IP address
+aws ec2 describe-instances --instance-ids i-0353879c3d0ebacfc --output text|grep ASSOCIATION |awk '{print $4}'|head -1
