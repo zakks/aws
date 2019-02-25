@@ -1,11 +1,49 @@
+Useful aws commands:
+
+
 Check if instance is running.
+-----------------------------
 aws ec2 describe-instances --query 'Reservations[*].Instances[*].[Placement.AvailabilityZone, State.Name, InstanceId]' --output text
  
-Stop the instance
+Stop the instance.
+-------------------
 aws ec2 stop-instances --instance-ids i-0353879c3d0ebacfc
  
-Start the instance
+Start the instance.
+-------------------
 aws ec2 start-instances --instance-ids i-0353879c3d0ebacfc
  
-Identify its public IP address
+Identify its public IP address.
+--------------------------------
 aws ec2 describe-instances --instance-ids i-0353879c3d0ebacfc --output text|grep ASSOCIATION |awk '{print $4}'|head -1
+
+Create User.
+-------------
+aws iam create-user --user-name test
+
+Create group.
+---------------
+aws iam create-group --group-name testgroup
+
+Create Access keys.
+--------------------
+aws iam create-access-key --user-name test
+
+Attach Policy to Group.
+----------------------
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonEC2FullAccess --group-name testgroup
+
+Add user to group.
+--------------------
+aws iam add-user-to-group --user-name test --group-name testgroup
+
+Create Topic.
+------------------
+aws sns create-topic --name alarm
+
+Subscribe to Topic.
+-------------------
+aws sns subscribe --topic-arn arn:aws:sns:ap-south-1:213343503958:alarm --protocol email --notification-endpoint zakirameer@gmail.com
+
+
+
