@@ -1,6 +1,10 @@
 Useful aws commands:
 
 
+Creat a new instance.
+----------------------
+aws ec2 run-instances --image-id ami-0937dcc711d38ef3f --count 1 --instance-type t2.micro --key-name awsmumbaikey --user-data file://post-install.sh  --security-group-ids sg-08c67cbc4bbd4bedc --subnet-id subnet-77c2821f
+
 Check if instance is running.
 -----------------------------
 aws ec2 describe-instances --query 'Reservations[*].Instances[*].[Placement.AvailabilityZone, State.Name, InstanceId]' --output text
