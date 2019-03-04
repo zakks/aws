@@ -12,7 +12,6 @@ def home():
 
 @app.route("/uc/<input>", methods=['GET'])
 def change_uppercase(input):
-    ##input = "sourav"
     payload = '{"key":"%s"}' % (input)
     response = client.invoke(FunctionName='helloworld', Payload=payload)
     print(response)
