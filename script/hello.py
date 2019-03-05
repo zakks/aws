@@ -1,5 +1,9 @@
-import boto3, json
-client = boto3.client('lambda', region_name='ap-south-1', aws_access_key_id='AKIAJZGDDMAH5FJ6U5IQ', aws_secret_access_key='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')
+import boto3, json, os
+
+access_key=os.environ["ACCESS_KEY"]
+secret_key=os.environ["SECRET_KEY"]
+
+client = boto3.client('lambda', region_name='ap-south-1', aws_access_key_id=access_key, aws_secret_access_key=secret_key)
 
 from flask import Flask, render_template
 
