@@ -18,6 +18,14 @@ def home():
 def login():
     return render_template('login.html')
 
+@app.route('/action_page')
+def action():
+    return render_template('action_page.html')
+
+@app.route('/forgot_pass')
+def forgot():
+    return render_template('forgot_pass.html')
+
 ## function to display string in uppercase from lambda function
 
 @app.route("/uc/<param>", methods=['GET'])
