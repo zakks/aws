@@ -42,6 +42,26 @@ def helloworld(param):
     result1 = {'input' :input ,'return_str':output}
     return render_template('upper.html', result=result1)
 
+@app.route('/image')
+def index():
+    return '''<form method=POST enctype=multipart/form-data action="upload">
+    <input type=file name=myfile>
+    <input type=submit>
+    </form>'''
 
+@app.route('/upload', methods=['POST'])
+def upload():
+    file = request.files['myfile']
+    s3 = boto3.resource('s3')
+    print(file.filename)
+    s3.Bucket('zakir-test').put_object(Key=file.filename, Body=request.files['myfile'])
+    x = '{"key1":"zakir-test","key2":"file.filename"}'
+
+    response = client.invoke(FunctionName='image_check',Payload=x)
+    print(response)
+
+    output= json.loads(response['Payload'].read().decode('utf-8'))
+    result1 = {'return_str':output}
+    return render_template('uploadimage.html',result=result1) 
 app.run(host='0.0.0.0', port=8888)
 
