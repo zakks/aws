@@ -53,7 +53,8 @@ def index():
 @app.route('/image', methods=['POST'])
 def image():
     file = request.files['myfile']
-    s3 = boto3.resource('s3')
+    s3 = boto3.resource('s3,,aws_access_key_id=access_key,
+         aws_secret_access_key=secret_key')
     print(file.filename)
     s3.Bucket('zakir-test').put_object(Key=file.filename, Body=request.files['myfile'])
     filename = secure_filename(file.filename)
