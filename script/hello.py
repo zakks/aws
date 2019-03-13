@@ -6,6 +6,7 @@ secret_key=os.environ["SECRET_KEY"]
 client = boto3.client('lambda', region_name='ap-south-1', aws_access_key_id=access_key, aws_secret_access_key=secret_key)
 
 from flask import Flask, render_template
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -44,18 +45,19 @@ def helloworld(param):
 
 @app.route('/image')
 def index():
-    return '''<form method=POST enctype=multipart/form-data action="upload">
+    return '''<form method=POST enctype=multipart/form-data action="image">
     <input type=file name=myfile>
     <input type=submit>
     </form>'''
 
-@app.route('/upload', methods=['POST'])
-def upload():
+@app.route('/image', methods=['POST'])
+def image():
     file = request.files['myfile']
     s3 = boto3.resource('s3')
     print(file.filename)
     s3.Bucket('zakir-test').put_object(Key=file.filename, Body=request.files['myfile'])
-    x = '{"key1":"zakir-test","key2":"file.filename"}'
+    filename = secure_filename(file.filename)
+    x = '{"key1":"zakir-test","key2":"%s"}' % (filename)
 
     response = client.invoke(FunctionName='image_check',Payload=x)
     print(response)
